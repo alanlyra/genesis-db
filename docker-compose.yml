@@ -1,0 +1,30 @@
+version: "3.3"
+services:
+  genesis-database:
+    image : mongo:7.0.5
+    container_name: genesis-database
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MONGO_INITDB_ROOT_USERNAME=${GENESIS_DATABASE_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${GENESIS_DATABASE_PASSWORD}
+      - TZ=America/Sao_Paulo
+    volumes:
+      - db-data:/data/db
+      - ./dump_file:/dump_file
+      - ./config/mongod.conf:/etc/mongod.conf
+    ports:
+      - ${GENESIS_DATABASE_PORT}:${GENESIS_DATABASE_PORT}
+    command: mongod --port ${GENESIS_DATABASE_PORT} --config /etc/mongod.conf
+    restart: unless-stopped
+    networks:
+      - genesis_${PROJECT_ENVIRONMENT}
+volumes:
+  db-data:
+  db-new-data:
+
+networks:
+  genesis_dev:
+    external: true
+  genesis_prod:
+    external: true
