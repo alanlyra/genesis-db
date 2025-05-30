@@ -16,7 +16,7 @@ services:
     ports:
       - ${GENESIS_DATABASE_PORT}:${GENESIS_DATABASE_PORT}
     command: mongod --port ${GENESIS_DATABASE_PORT} --config /etc/mongod.conf
-    restart: unless-stopped
+    restart: always
     networks:
       - genesis_${PROJECT_ENVIRONMENT}
 volumes:
